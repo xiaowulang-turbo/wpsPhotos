@@ -1,0 +1,40 @@
+{
+  "name": "WPS Photos - 图片查看工具",
+  "short_name": "WPS Photos",
+  "description": "专业的图片查看和编辑工具",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#2b2b2b",
+  "theme_color": "#2b2b2b",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/images/icon1.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/icon1.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["photo", "utilities"],
+  "shortcuts": [
+    {
+      "name": "打开看图工具",
+      "short_name": "看图",
+      "description": "快速打开图片查看器",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/images/icon1.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}
+

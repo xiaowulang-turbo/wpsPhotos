@@ -2,7 +2,7 @@
 
 import { useAgentStore } from '@/store/agentStore'
 import { useState } from 'react'
-import { X, Send, Plus, Share2, Clock, Image, Globe, Bot, AtSign, ArrowUp, MessageSquare, ImageIcon } from 'lucide-react'
+import { X, Send, Plus, Share2, Clock, Image, Globe, Bot, AtSign, ArrowUp, MessageSquare, ImageIcon, Sparkles } from 'lucide-react'
 
 export default function AgentSidebar() {
   const { isOpen, messages, uploadedFiles, toggleSidebar, addMessage, clearMessages, shareConversation, addFile, removeFile } = useAgentStore()
@@ -50,7 +50,7 @@ export default function AgentSidebar() {
       
       // 模拟AI回复
       setTimeout(() => {
-        addMessage('assistant', '好的！我正在分析您的问题，请稍等...')
+        addMessage('assistant', '好的！我正在分析您的需求，请稍等...')
       }, 500)
     }
   }
@@ -59,6 +59,14 @@ export default function AgentSidebar() {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
       handleSend()
+    }
+  }
+
+  const handlePolish = () => {
+    if (input.trim()) {
+      // 模拟AI润色：添加更专业的语气和详细描述
+      const polished = `请帮我${input.trim()}。要求：\n1. 保持原图质量\n2. 处理后的效果自然\n3. 如有疑问可以询问我`
+      setInput(polished)
     }
   }
 
@@ -229,12 +237,24 @@ export default function AgentSidebar() {
                     onChange={(e) => setInput(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="请输入你的设计需求"
-                    className="w-full bg-transparent text-white text-sm px-4 pt-3 pb-12 resize-none focus:outline-none min-h-[100px]"
+                    className="w-full bg-transparent text-white text-sm px-4 pt-3 pb-12 resize-none focus:outline-none min-h-[100px] scrollbar-transparent"
                     rows={3}
                   />
                   
+                  {/* AI 润色按钮 - 悬浮在右上角 */}
+                  {input.trim() && (
+                    <button
+                      onClick={handlePolish}
+                      className="absolute top-10 right-2 flex items-center gap-1 px-2 py-1 text-xs text-gray-400 hover:text-white hover:bg-white/10 rounded transition-colors"
+                      title="AI润色"
+                    >
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span> </span>
+                    </button>
+                  )}
+                  
                   {/* 底部工具栏 */}
-                  <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-4 py-2 border-t border-white/5">
+                  <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-4 py-2 border-t border-white/5 bg-[#2b2b2b]">
                     <div className="flex items-center gap-1 relative">
                       <button 
                         onClick={() => setShowUploadPanel(!showUploadPanel)}
@@ -294,31 +314,31 @@ export default function AgentSidebar() {
                   onClick={() => setInput('请根据这张照片制作一张白色背景的 1 寸证件照（25mm×35mm），分辨率为 300DPI，大约 295×413 像素，格式为 PNG，不含文字与边框，文件大小不超过 500KB。')}
                   className="w-full text-left text-sm text-gray-300 bg-[#2b2b2b] hover:bg-[#333] px-4 py-3 rounded-lg transition-colors"
                 >
-                  请根据这张照片，帮我制作一张证件照
+                  📸 一键制作标准证件照 - 白底 1 寸，符合规范
                 </button>
                 <button
                   onClick={() => setInput('帮我去除图片背景，保留主体人物/物品，输出透明背景的 PNG 格式图片。')}
                   className="w-full text-left text-sm text-gray-300 bg-[#2b2b2b] hover:bg-[#333] px-4 py-3 rounded-lg transition-colors"
                 >
-                  去除图片背景，保留主体
+                  ✂️ 智能抠图去背景 - 保留主体，输出透明底
                 </button>
                 <button
                   onClick={() => setInput('将这张图片压缩到 200KB 以内，保持清晰度，格式为 JPG。')}
                   className="w-full text-left text-sm text-gray-300 bg-[#2b2b2b] hover:bg-[#333] px-4 py-3 rounded-lg transition-colors"
                 >
-                  压缩图片大小
+                  🗜️ 压缩图片文件 - 减小体积不失清晰
                 </button>
                 <button
                   onClick={() => setInput('调整图片尺寸为 1920×1080 像素，保持比例，不变形。')}
                   className="w-full text-left text-sm text-gray-300 bg-[#2b2b2b] hover:bg-[#333] px-4 py-3 rounded-lg transition-colors"
                 >
-                  调整图片尺寸
+                  📐 调整图片尺寸 - 自定义分辨率不变形
                 </button>
                 <button
                   onClick={() => setInput('帮我美化这张照片，提升亮度和对比度，让色彩更鲜艳自然。')}
                   className="w-full text-left text-sm text-gray-300 bg-[#2b2b2b] hover:bg-[#333] px-4 py-3 rounded-lg transition-colors"
                 >
-                  美化照片效果
+                  ✨ 智能美化增强 - 优化色彩让照片更出彩
                 </button>
               </div>
             </div>
@@ -437,18 +457,30 @@ export default function AgentSidebar() {
                 )}
                 
                 {/* 输入区域 */}
-                <div className="relative overflow-hidden rounded-b-lg">
+                <div className="relative overflow-hidden round-b-lg">
                   <textarea
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="请输入你的需求"
-                    className="w-full bg-transparent text-white text-sm px-4 pt-3 pb-12 resize-none focus:outline-none max-h-32"
+                    className="w-full bg-transparent text-white text-sm px-4 pt-3 pb-12 resize-none focus:outline-none max-h-32 scrollbar-transparent"
                     rows={2}
                   />
                   
+                  {/* AI 润色按钮 - 悬浮在右上角 */}
+                  {input.trim() && (
+                    <button
+                      onClick={handlePolish}
+                      className="absolute top-8 right-2 flex items-center gap-1 px-2 py-1 text-xs text-gray-400 hover:text-white hover:bg-white/10 rounded transition-colors"
+                      title="AI润色"
+                    >
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span> </span>
+                    </button>
+                  )}
+                  
                   {/* 底部工具栏 */}
-                  <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-4 py-2 border-t border-white/5">
+                  <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-4 py-2 border-t border-white/5 bg-[#2b2b2b]">
                     <div className="flex items-center gap-1 relative">
                       <button 
                         onClick={() => setShowUploadPanel(!showUploadPanel)}
